@@ -1,0 +1,67 @@
+version: '3.8'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:6.1.1
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+
+  broker1:
+    image: confluentinc/cp-kafka:6.1.1
+    hostname: broker1
+    container_name: broker1
+    depends_on:
+      - zookeeper
+    ports:
+      - "29092:29092"
+      - "9092:9092"
+      - "9101:9101"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERN:PLAINTEXT,EXTERN:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INTERN://broker1:29092,EXTERN://localhost:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERN
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+
+  broker2:
+    image: confluentinc/cp-kafka:6.1.1
+    hostname: broker2
+    container_name: broker2
+    depends_on:
+      - zookeeper
+    ports:
+      - "29093:29093"
+      - "9093:9093"
+      - "9201:9201"
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERN:PLAINTEXT,EXTERN:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INTERN://broker2:29093,EXTERN://localhost:9093
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERN
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+
+  broker3:
+    image: confluentinc/cp-kafka:6.1.1
+    hostname: broker3
+    container_name: broker3
+    depends_on:
+      - zookeeper
+    ports:
+      - "29094:29094"
+      - "9094:9094"
+      - "9301:9301"
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERN:PLAINTEXT,EXTERN:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INTERN://broker3:29094,EXTERN://localhost:9094
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERN
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
