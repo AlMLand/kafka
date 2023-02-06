@@ -30,7 +30,7 @@ fun main() {
     }).run {
         repeat(10) {
             for (index in 1..30)
-                send(ProducerRecord("own_topic", "my_test_record nr: $index")) { metadata, exception ->
+                send(ProducerRecord("first_topic", "my_test_record nr: $index")) { metadata, exception ->
                     if (exception == null)
                         logger.info(
                             """

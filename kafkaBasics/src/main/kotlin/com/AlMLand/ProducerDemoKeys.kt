@@ -18,7 +18,7 @@ fun main() {
     }).run {
         repeat(3) {
             for (index in 1..10)
-                send(ProducerRecord("own_topic", "id_$index", "my_test_record nr: $index")) { metadata, exception ->
+                send(ProducerRecord("first_topic", "id_$index", "my_test_record nr: $index")) { metadata, exception ->
                     if (exception == null)
                         logger.info(
                             """

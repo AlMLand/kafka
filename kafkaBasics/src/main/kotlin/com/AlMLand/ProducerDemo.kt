@@ -16,7 +16,7 @@ fun main() {
         setProperty("key.serializer", StringSerializer::class.java.name)
         setProperty("value.serializer", StringSerializer::class.java.name)
     }).run {
-        send(ProducerRecord("own_topic", "my_test_record"))
+        send(ProducerRecord("first_topic", "my_test_record"))
         flush()
         close()
     }
