@@ -1,4 +1,4 @@
-package com.AlMLand
+package com.AlMLand.consumer
 
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.errors.WakeupException
@@ -17,7 +17,7 @@ fun main() {
         setProperty("key.deserializer", StringDeserializer::class.java.name)
         setProperty("value.deserializer", StringDeserializer::class.java.name)
         setProperty("allow.auto.create.topics", "false")
-        setProperty("group.id", "my_application")
+        setProperty("group.id", "first_group")
         setProperty(
             "auto.offset.reset",
             "earliest"
@@ -27,7 +27,6 @@ fun main() {
         try {
             subscribe(listOf("first_topic"))
             while (true) {
-                logger.info("polling")
                 // tolko elsi kafka ne imeet messages, togta zhdem eto wremja
                 poll(Duration.ofMillis(1000)).let { records ->
                     records.forEach {
