@@ -1,6 +1,7 @@
 package com.AlMLand.producer
 
 import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.ProducerConfig.ACKS_CONFIG
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.serialization.StringSerializer
 import org.slf4j.LoggerFactory
@@ -15,6 +16,7 @@ fun main() {
         setProperty("bootstrap.servers", "127.0.0.1:9092") // or "localhost:9092"
         setProperty("key.serializer", StringSerializer::class.java.name)
         setProperty("value.serializer", StringSerializer::class.java.name)
+        setProperty(ACKS_CONFIG, "all")
     }).run {
         repeat(3) {
             for (index in 1..10)
@@ -22,9 +24,8 @@ fun main() {
                     if (exception == null)
                         logger.info(
                             """
-                    Received new metadata:
-                    key: id_${index} | partition: ${metadata.partition()} | offset: ${metadata.offset()}
-                """.trimIndent()
+                            Received new metadata: key: id_${index} | partition: ${metadata.partition()} | offset: ${metadata.offset()}
+                            """.trimIndent()
                         )
                     else
                         logger.error("Error while producing", exception)
