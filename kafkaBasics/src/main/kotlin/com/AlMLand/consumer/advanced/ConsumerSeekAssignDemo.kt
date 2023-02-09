@@ -16,7 +16,7 @@ import java.util.*
  * - use consumer assign() and seek() APIs
  */
 private val logger = LoggerFactory.getLogger(ConsumerSeekAssignDemo::class.java)
-private var offsetToReadFrom = 7L
+private const val OFFSETS_TO_READ_FROM = 7L
 private const val NUMBER_OF_MESSAGES_TO_READ = 5
 private var readMessages = 0
 
@@ -27,7 +27,7 @@ fun main() {
         // assign and seek are mostly used to replay data or fetch a specific message
         TopicPartition("first_topic", 0).let { topicPartition ->
             assign(setOf(topicPartition))
-            seek(topicPartition, offsetToReadFrom)
+            seek(topicPartition, OFFSETS_TO_READ_FROM)
             run messagesLimit@{
                 while (true) {
                     poll(ofMillis(100)).let { records ->
