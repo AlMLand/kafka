@@ -42,7 +42,7 @@ internal class OpenSearchConsumer {
             // val id = "${record.topic()}_${record.partition()}_${record.offset()}"
 
             // idempotent strategy 2 (preferred) -> extract ID from value (z.B JSON was man als value bekommt)
-            val id = extractID(record.value())
+            val id = extractID(handleWikiEventMessages(record.value()))
 
             try {
                 client.index(
@@ -59,6 +59,12 @@ internal class OpenSearchConsumer {
                 }
             }
         }
+
+        private fun handleWikiEventMessages(json: String?): String? =
+            if (isWikiEventMessage(json)) json?.substring(WIKIMEDIA_EVENT_MESSAGE_JSON_START)
+            else json
+
+        private fun isWikiEventMessage(json: String?) = json?.contains(WIKIMEDIA_EVENT_MESSAGE) == true
 
         private fun extractID(json: String?): String {
             // google gson library
