@@ -68,7 +68,16 @@ private fun properties() = Properties().apply {
 
 // ######### IDEMPOTENCE #########
     setProperty(ENABLE_IDEMPOTENCE_CONFIG, "true") // raspoznaet record dublicati -> is default since kafka 3.0
-    // To prevent duplicates in Kafka introduced by the network, I should use
+    /*
+    To prevent duplicates in Kafka introduced by the network.
+        IDEMPOTENT KAFKA PRODUCER:
+            example
+            - Kafka producer sends a message to Kafka
+            - The message was successfully written and replicated
+            - Network issues prevented the broker acknowledgment from reaching the producer
+            - The producer will treat the lack of acknowledgment as a temporary network issue and will retry sending the message (since it can’t know that it was received).
+            - In that case, the broker will end up having the same message twice
+    */
 
 // ######### BATCHING MECHANISM #########
     setProperty(LINGER_MS_CONFIG, "0") // => wremja ozhidanija pered otprawkoj partii(batch)
