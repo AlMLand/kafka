@@ -2,6 +2,8 @@ package com.AlMLand
 
 import com.google.gson.JsonParser
 import org.apache.kafka.clients.consumer.ConsumerRecord
+import org.apache.kafka.clients.consumer.ConsumerRecords
+import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.opensearch.OpenSearchStatusException
 import org.opensearch.action.index.IndexRequest
 import org.opensearch.client.RequestOptions
@@ -32,19 +34,32 @@ internal class OpenSearchConsumer {
                                     putToIndex(client, record)
                                 }
                                 // if  enable.auto.commit=false  ;  kafkaConsumerCommitOffsetsManually()
-                                if (records.count() > 0) consumer.commitAsync { offsets, exception ->
-                                    if (exception == null) {
-                                        offsets.keys.map { Pair(it.topic(), it.partition()) }.first().also {
-                                            logger.info(
-                                                """
-                                                    OFFSET: ${offsets.values.toList()[0].offset()} have been committed to TOPIC: ${it.first}, PARTITION: ${it.second}.
-                                                """.trimIndent()
-                                            )
-                                        }
-                                    }
-                                }
+                                commitOffsetsToBroker(records, consumer)
                             }
                         }
+                    }
+                }
+            }
+        }
+
+        private fun commitOffsetsToBroker(
+            records: ConsumerRecords<String, String>,
+            consumer: KafkaConsumer<String, String>
+        ) {
+            if (records.count() > 0) consumer.commitAsync { offsets, exception ->
+                if (exception == null) {
+                    offsets.entries.map {
+                        Triple(
+                            it.value.offset(),
+                            it.key.topic(),
+                            it.key.partition()
+                        )
+                    }.forEach {
+                        logger.info(
+                            """
+                                OFFSET: ${it.first} have been committed to TOPIC: ${it.second}, PARTITION: ${it.third}.
+                            """.trimIndent()
+                        )
                     }
                 }
             }
