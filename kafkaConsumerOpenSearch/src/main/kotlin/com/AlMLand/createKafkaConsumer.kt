@@ -9,15 +9,13 @@ import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.serialization.StringDeserializer
 import java.util.Properties
 
-internal fun kafkaConsumer(): KafkaConsumer<String, String> = KafkaConsumer(consumerProperties)
-
-private val consumerProperties = Properties().apply {
+internal fun kafkaConsumer(): KafkaConsumer<String, String> = KafkaConsumer(Properties().apply {
     setProperty(BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
     setProperty(KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer::class.java.name)
     setProperty(VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer::class.java.name)
     setProperty(AUTO_OFFSET_RESET_CONFIG, "latest")
     setProperty(GROUP_ID_CONFIG, "consumer_opensearch")
-}
+})
 
 /*
 DELIVERY SEMANTICS:
@@ -34,7 +32,7 @@ CONSUMER OFFSETS DELIVERY SEMANTICS:
                 i tolko posle etogo wnow wiziwat method `poll()`.
 - strategy 2 - disabled auto offset commit behavior -> (medium) enable.auto.commit=false & manual commit of offsets
                 time-to-time call `commitSync()` or `commitAsync()` with correct offsets manually.
-                Eta strategija nuzhna naprimer esli esli dannie iz Kafka t.e. batches dolzhni nakopitja i potom obrabotatsja za odin raz,
+                Eta strategija nuzhna naprimer esli dannie iz Kafka t.e. batches dolzhni nakopitja i potom obrabotatsja za odin raz,
                     naprimer: za odin raz sohranit wse v DB
 - strategy 3 - disabled auto offset commit behavior -> (advanced) enable.auto.commit=false & storing offsets externally
                 neobhodimo nachinat chitat s opredelennih mest, v etom pomozhet method `seek()` i sohranjat offsets v DB naprimer
