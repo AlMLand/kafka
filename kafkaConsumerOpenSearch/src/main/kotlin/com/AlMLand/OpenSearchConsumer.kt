@@ -14,13 +14,15 @@ internal class OpenSearchConsumer {
     companion object {
         private const val INDEX = "wikimedia"
         private const val TOPIC = "wikimedia.recentchange"
+        private const val WIKIMEDIA_EVENT_MESSAGE_JSON_START = 15
+        private const val WIKIMEDIA_EVENT_MESSAGE = "event: message"
         private val logger = LoggerFactory.getLogger(this::class.java)
 
         @JvmStatic
         fun main(args: Array<String>) {
             restHighLevelClient().use { client ->
                 createIndex(client, INDEX, logger)
-                kafkaConsumer().use { consumer ->
+                kafkaConsumerCommitOffsetsManually().use { consumer ->
                     consumer.subscribe(listOf(TOPIC))
                     kotlin.run stepLimit@{
                         while (true) {
@@ -28,6 +30,18 @@ internal class OpenSearchConsumer {
                                 logger.info("received record count: ${records.count()}")
                                 records.forEach { record ->
                                     putToIndex(client, record)
+                                }
+                                // if  enable.auto.commit=false  ;  kafkaConsumerCommitOffsetsManually()
+                                if (records.count() > 0) consumer.commitAsync { offsets, exception ->
+                                    if (exception == null) {
+                                        offsets.keys.map { Pair(it.topic(), it.partition()) }.first().also {
+                                            logger.info(
+                                                """
+                                                    OFFSET: ${offsets.values.toList()[0].offset()} have been committed to TOPIC: ${it.first}, PARTITION: ${it.second}.
+                                                """.trimIndent()
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }
