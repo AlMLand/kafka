@@ -3,6 +3,7 @@ package com.AlMLand
 import com.google.gson.JsonParser
 import org.apache.kafka.clients.consumer.ConsumerRecords
 import org.apache.kafka.clients.consumer.KafkaConsumer
+import org.apache.kafka.common.errors.WakeupException
 import org.opensearch.action.bulk.BulkRequest
 import org.opensearch.action.index.IndexRequest
 import org.opensearch.client.RequestOptions
@@ -24,18 +25,33 @@ internal class OpenSearchConsumer {
             restHighLevelClient().use { client ->
                 createIndex(client, INDEX, logger)
                 kafkaConsumerCommitOffsetsManually().use { consumer ->
-                    consumer.subscribe(listOf(TOPIC))
-                    kotlin.run stepLimit@{
-                        while (true) {
-                            consumer.poll(Duration.ofMillis(3000)).let { records ->
-                                logger.info("received record count: ${records.count()}")
-                                // open search no bulk request
-                                // putToIndex(records, client)
+                    consumer.registerWakeupException()
+                    try {
+                        consumer.subscribe(listOf(TOPIC))
+                        kotlin.run stepLimit@{
+                            while (true) {
+                                consumer.poll(Duration.ofMillis(3000)).let { records ->
+                                    logger.info("received record count: ${records.count()}")
+                                    // open search no bulk request
+                                    // putToIndex(records, client)
 
-                                // open search bulk request
-                                putToIndexBulk(records, client, consumer)
+                                    // open search bulk request
+                                    putToIndexBulk(records, client, consumer)
+                                }
                             }
                         }
+                    } catch (we: WakeupException) {
+                        logger.info("consumer is starting to shut down")
+                    } catch (e: Exception) {
+                        logger.error("surprise exception", e)
+                    } finally {
+                        consumer.close()
+                        client.close()
+                        logger.info(
+                            """
+                                gracefully shut down -> close consumer and commit offsets to the kafka __consumer_offsets topic
+                            """.trimIndent()
+                        )
                     }
                 }
             }
@@ -132,6 +148,20 @@ internal class OpenSearchConsumer {
                     ?.asString ?: "default"
             }
             """.trimIndent()
+        }
+
+        private fun KafkaConsumer<String, String>.registerWakeupException() {
+            Thread.currentThread().let {
+                Runtime.getRuntime().addShutdownHook(Thread() {
+                    logger.info("detected a shutdown, let's exit by calling consumer.wakeup()...")
+                    wakeup()
+                    try {
+                        it.join()
+                    } catch (ie: InterruptedException) {
+                        ie.printStackTrace()
+                    }
+                })
+            }
         }
     }
 }
