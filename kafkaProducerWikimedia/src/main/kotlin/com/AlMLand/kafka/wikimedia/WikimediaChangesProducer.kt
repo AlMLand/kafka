@@ -61,7 +61,7 @@ private fun properties() = Properties().apply {
 // ######### RETRIES #########
     setProperty(RETRIES_CONFIG, "2147483647") // retries until delivery.timeout is reached , eto chislo Int.max()
     setProperty(DELIVERY_TIMEOUT_MS_CONFIG, "120000") // => fail after ~ 2 min
-    setProperty(RETRY_BACKOFF_MS_CONFIG, "100")
+    setProperty(RETRY_BACKOFF_MS_CONFIG, "100") // cherez kakoj promezhutok powtorjat popitki otoslat
 
     setProperty(MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5") // ensure max performance while keeping message ordering
     // up to 5 message batches being in flight(being sent beetwen the producer and the broker) at most => poluchaem parallelizm
