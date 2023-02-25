@@ -1,0 +1,15 @@
+- <message type>.<dataset name>.<data name>.<data format>
+        ~ message type:
+            examples:
+                ~ logging: for logging data
+                ~ queuing: for classical queuing use cases
+                ~ tracking: for tracking events such as user clicks, page views, ad views, etc.
+                ~ etl/db: for ETL and CDC use cases such a database feeds
+                ~ streaming: for intermediate topics created by stream processing pipelines
+                ~ push: for data that's being pushed from offline (batch computation) environments into online environments
+                ~ user: for user-specific data such as scratch and test topics
+        ~ dataset name: is analogous to a database name in traditional rdbms systems. It's user as a category to group topics together
+        ~ data name: is analogous to a table name in traditional rdbms systems, thought it's fine to include further dotter notation
+                if developers wish to impose their own hierarchy within the dataset namespace
+        ~ data format: for example .avro, .json, .text, .protobuf, .csv, .log
+- user snake_case
