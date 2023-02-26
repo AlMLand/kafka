@@ -1,0 +1,11 @@
+- topic are made of partitions
+- partitions are made of segments(files)
+    ~ only one segment is active
+    ~ important segments settings:
+        ~ log.segment.bytes -> the max size of a single segment in bytes (default 1 GB)
+        ~ log.segment.mx -> the time Kafka will wait before committing the segment if not full (default 1 week) (elsi
+            segment ne zapolnen do konca (default max is 1 GB) i odnu nedelju net novih dannih, segment zakriwaetsja i
+            otkriwaetsja nowij)
+    ~ segments come(sozdaetsja) with two indexes(files):
+        ~ an offset to position index: helps kafka find where to read from to find a message
+        ~ a timestamp to offset index: helps kafka find messages with a specific timestamp
