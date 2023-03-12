@@ -1,0 +1,45 @@
+{
+  "type": "record",
+  "name": "Technologist",
+  "fields": [
+    {
+      "name": "firstName",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "Alex",
+            "Elvira",
+            "Timur"
+          ]
+        }
+      }
+    },
+    {
+      "name": "lastName",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "First",
+            "Second",
+            "Third"
+          ]
+        }
+      }
+    },
+    {
+      "name": "titel",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "options": [
+            "AAA",
+            "BBB",
+            "CCC"
+          ]
+        }
+      }
+    }
+  ]
+}

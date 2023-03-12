@@ -1,0 +1,18 @@
+3 approaches (default message size is 1 MB):
+
+1. large message using external store
+    ~ store message outside of kafka
+    ~ send a reference of that message to kafka
+    ~ write custom code at producer/consumer to handle this pattern
+2. sending large messages in kafka (ex. 10 MB)
+    - topic-wise, kafka-side set max message size to 10 MB
+        ~ broker site : modify message.max.bytes
+        ~ topic site : max.message.bytes
+    - broker-wise, set replication fetch size to 10 MB
+        ~ replica.fetch.max.bytes=10485880 (in server.properties)
+    - consumer-side, must increase fetch size of the consumer will crash
+        ~ max.partition.fetch.bytes=10485880
+    - producer-side, must increase the max request size
+        ~ max.request.size=10485880
+3. teilen die message auf kleine messages, modify key -> add flag(chtobi znali, chto eto sostownaja messge),
+    verschicken zu kafka mit gleichen key

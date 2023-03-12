@@ -1,0 +1,16 @@
+{
+  "name": "elasticsearch-sync-connector",
+  "tasks.max": "2",
+  "connection.url": "http://elasticsearch:9200",
+  "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
+  "topics": "wikimedia.recentchange.connect",
+  "topic.index.map": "wikimedia.recentchange.connect:index1",
+  "schema.ignore": "true",
+  "key.ignore": "true",
+  "type.name": "_doc",
+  "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "key.converter.schemas.enable": "false",
+  "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "value.converter.schema.registry.url": "http://schema-registry:8081",
+  "value.converter.schemas.enable": "false"
+}
