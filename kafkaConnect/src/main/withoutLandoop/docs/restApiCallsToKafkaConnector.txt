@@ -1,0 +1,18 @@
+common kafka connect rest api calls:
+    https://docs.confluent.io/kafka-connectors/self-managed/monitoring.html#common-rest-examples
+
+examples:
+- send the worker config to the kafka connector:
+    curl -i -H "Content-Type: application/json" -X PUT http://localhost:8083/connectors/technologists/config --upload-file technologists-source-connector.json
+- to fetch all already installed connector plugins:
+    curl -i http://localhost:8083/connector-plugins
+- all now active connectors:
+        curl -i http://localhost:8083/connectors
+- show the status from connector:
+    curl -i http://localhost:8083/connectors/technologists/status
+- paused the kafka connect:
+    curl -i -X PUT http://localhost:8083/connectors/technologists/pause
+- startowat zanovo the kafka connect:
+    curl -i -X PUT http://localhost:8083/connectors/technologists/resume
+- delete the kafka connect:
+    curl -i -X DELETE http://localhost:8083/connectors/technologists
