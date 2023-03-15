@@ -1,0 +1,23 @@
+{
+  "name": "postgres-sinc-connector",
+  "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+  "tasks.max": "1",
+  "topics": "wikimedia.recentchange.connect",
+  "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "key.converter.schemas.enable": "false",
+  "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+  "value.converter.schemas.enable": "false",
+  "connection.url": "jdbc:postgresql://postgres:5432/mytestdb",
+  "connection.user": "alex",
+  "connection.password": "secret",
+  "connection.attempts": "5",
+  "connection.backoff.ms": "2000",
+  "insert.mode": "upsert",
+  "pk.mode": "kafka",
+  "pk.fields": "__connect_topic,__connect_partition,__connect_offset",
+  "fields.whitelist": "schema,payload",
+  "auto.create": "true",
+  "auto.evolve": "true",
+  "max.retries": "5",
+  "retry.backoff.ms": "2000"
+}

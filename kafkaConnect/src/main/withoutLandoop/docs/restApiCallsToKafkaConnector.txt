@@ -7,7 +7,7 @@ examples:
 - to fetch all already installed connector plugins:
     curl -i http://localhost:8083/connector-plugins
 - all now active connectors:
-        curl -i http://localhost:8083/connectors
+    curl -i http://localhost:8083/connectors
 - show the status from connector:
     curl -i http://localhost:8083/connectors/technologists/status
 - paused the kafka connect:

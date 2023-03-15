@@ -136,6 +136,17 @@ services:
     depends_on:
       - elasticsearch
 
+  postgres:
+    image: postgres:15.2
+    hostname: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_USER: alex
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: mytestdb
+    ports:
+      - "5432:5432"
+
   conduktor-platform:
     image: conduktor/conduktor-platform:latest
     ports:

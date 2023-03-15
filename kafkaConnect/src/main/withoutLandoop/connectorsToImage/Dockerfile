@@ -6,3 +6,4 @@ COPY ./kafkaConnectWikimediaJar/kafka-connect-wikimedia-1.0-all.jar /opt/kafka/p
 
 RUN confluent-hub install --no-prompt confluentinc/kafka-connect-datagen:0.6.0
 RUN confluent-hub install --no-prompt confluentinc/kafka-connect-elasticsearch:14.0.5
+RUN confluent-hub install --no-prompt confluentinc/kafka-connect-jdbc:10.6.4

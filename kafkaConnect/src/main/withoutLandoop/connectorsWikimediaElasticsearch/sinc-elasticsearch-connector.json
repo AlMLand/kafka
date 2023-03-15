@@ -1,5 +1,5 @@
 {
-  "name": "elasticsearch-sync-connector",
+  "name": "elasticsearch-sinc-connector",
   "tasks.max": "2",
   "connection.url": "http://elasticsearch:9200",
   "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
