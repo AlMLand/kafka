@@ -15,14 +15,14 @@ class CustomSinkTask : SinkTask() {
         private val logger = LoggerFactory.getLogger(this::class.java)
     }
 
-    override fun version(): String = VersionUtil.version(javaClass)
+    override fun version(): String = VersionUtil.version(this::class.java)
 
     override fun start(props: MutableMap<String, String>) {
         customSinkConnectorConfig = CustomSinkConnectorConfig(props)
         TODO("Create resources like database or api connections here")
     }
 
-    override fun flush(currentOffsets: MutableMap<TopicPartition, OffsetAndMetadata>?) {
+    override fun flush(currentOffsets: MutableMap<TopicPartition, OffsetAndMetadata>) {
         TODO("Not yet implemented")
     }
 

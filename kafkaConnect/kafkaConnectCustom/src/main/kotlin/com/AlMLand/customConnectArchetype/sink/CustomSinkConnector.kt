@@ -26,11 +26,11 @@ class CustomSinkConnector : SinkConnector() {
 
     override fun start(props: MutableMap<String, String>) {
         customSinkConnectorConfig = CustomSinkConnectorConfig(props)
-        TODO("Add things you need to do to setup your connector")
+        TODO("Add things need to do to setup connector")
         /**
          * This will be executed once per connector. This can be used to handle connector level setup. For
-         * example if you are persisting state, you can use this to method to create your state table. You
-         * could also use this to verify permissions
+         * example if are persisting state, can use this to method to create state table.
+         * Could also use this to verify permissions
          */
     }
 
@@ -38,12 +38,12 @@ class CustomSinkConnector : SinkConnector() {
         TODO("Define the individual task configurations that will be executed")
         /**
          * This is used to schedule the number of tasks that will be running. This should not exceed maxTasks.
-         * Here is a spot where you can dish out work. For example if you are reading from multiple tables
-         * in a database, you can assign a table per task.
+         * Here is a spot where can dish out work. For example if are reading from multiple tables
+         * in a database, can assign a table per task.
          */
     }
 
-    override fun version(): String = VersionUtil.version(javaClass)
+    override fun version(): String = VersionUtil.version(this::class.java)
 
     override fun taskClass(): Class<out Task> = CustomSinkTask::class.java
 
