@@ -4,7 +4,7 @@ import com.github.jcustenborder.kafka.connect.utils.VersionUtil
 import org.apache.kafka.connect.source.SourceRecord
 import org.apache.kafka.connect.source.SourceTask
 
-class CustomSourceTask : SourceTask() {
+class GithubSourceTask : SourceTask() {
     override fun version(): String = VersionUtil.version(this::class.java)
 
     override fun start(props: MutableMap<String, String>) {
