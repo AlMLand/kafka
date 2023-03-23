@@ -22,7 +22,8 @@ class Reactions private constructor(
     private val confused: Int?,
     private val heart: Int?,
     private val rocket: Int?,
-    private val eyes: Int?
+    private val eyes: Int?,
+    private val optionalProperties: Map<String, Any>
 ) {
     companion object Utils {
         fun reactionsFromJson(json: JSONObject): Reactions =
@@ -51,7 +52,8 @@ class Reactions private constructor(
             private var confused: Int? = null,
             private var heart: Int? = null,
             private var rocket: Int? = null,
-            private var eyes: Int? = null
+            private var eyes: Int? = null,
+            private val optionalProperties: MutableMap<String, Any> = mutableMapOf()
         ) {
             fun url(url: String) = apply { this.url = url }
             fun totalCount(totalCount: Int) = apply { this.totalCount = totalCount }
@@ -63,7 +65,12 @@ class Reactions private constructor(
             fun heart(heart: Int) = apply { this.heart = heart }
             fun rocket(rocket: Int) = apply { this.rocket = rocket }
             fun eyes(eyes: Int) = apply { this.eyes = eyes }
-            fun build() = Reactions(url, totalCount, plusOne, minusOne, laugh, hooray, confused, heart, rocket, eyes)
+            fun optionalProperties(key: String, value: Any) = apply { this.optionalProperties[key] = value }
+
+            fun build() = Reactions(
+                url, totalCount, plusOne, minusOne, laugh, hooray, confused, heart, rocket,
+                eyes, optionalProperties
+            )
         }
     }
 }

@@ -11,7 +11,7 @@ class PullRequest private constructor(
     private val diffUrl: String?,
     private val mergedAt: String?,
     private val patchUrl: String?,
-    private val optionalProperties: Map<String, Any>?
+    private val optionalProperties: Map<String, Any>
 ) {
     companion object Utils {
         fun pullRequestFromJson(json: JSONObject): PullRequest =
@@ -29,7 +29,7 @@ class PullRequest private constructor(
             private var diffUrl: String? = null,
             private var mergedAt: String? = null,
             private var patchUrl: String? = null,
-            private var optionalProperties: Map<String, Any>? = null
+            private var optionalProperties: MutableMap<String, Any> = mutableMapOf()
         ) {
             fun url(url: String) = apply { this.url = url }
             fun htmlUrl(htmlUrl: String) = apply { this.htmlUrl = htmlUrl }
@@ -37,8 +37,7 @@ class PullRequest private constructor(
             fun diffUrl(diffUrl: String) = apply { this.diffUrl = diffUrl }
             fun mergedAt(mergedAt: String) = apply { this.mergedAt = mergedAt }
             fun patchUrl(patchUrl: String) = apply { this.patchUrl = patchUrl }
-            fun optionalProperties(optionalProperties: Map<String, Any>) =
-                apply { this.optionalProperties = optionalProperties }
+            fun optionalProperties(key: String, value: Any) = apply { this.optionalProperties[key] = value }
 
             fun build() = PullRequest(url, htmlUrl, request, diffUrl, mergedAt, patchUrl, optionalProperties)
         }
