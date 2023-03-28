@@ -13,17 +13,17 @@ import com.AlMLand.customConnectArchetype.schema.ReactionsField.REACTIONS_URL
 import org.json.JSONObject
 
 class Reactions private constructor(
-    private val url: String?,
-    private val totalCount: Int?,
-    private val plusOne: Int?,
-    private val minusOne: Int?,
-    private val laugh: Int?,
-    private val hooray: Int?,
-    private val confused: Int?,
-    private val heart: Int?,
-    private val rocket: Int?,
-    private val eyes: Int?,
-    private val optionalProperties: Map<String, Any>
+    val url: String?,
+    val totalCount: Int?,
+    val plusOne: Int?,
+    val minusOne: Int?,
+    val laugh: Int?,
+    val hooray: Int?,
+    val confused: Int?,
+    val heart: Int?,
+    val rocket: Int?,
+    val eyes: Int?,
+    val optionalProperties: Map<String, Any>
 ) {
     companion object Utils {
         fun reactionsFromJson(json: JSONObject): Reactions =
