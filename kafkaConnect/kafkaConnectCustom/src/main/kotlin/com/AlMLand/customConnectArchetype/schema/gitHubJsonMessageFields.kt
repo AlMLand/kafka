@@ -1,7 +1,7 @@
 package com.AlMLand.customConnectArchetype.schema
 
-const val OWNER_FIELD = "owner"
-const val REPOSITORY_FIELD = "repository"
+const val OWNER = "owner"
+const val REPOSITORY = "repository"
 const val NEXT_PAGE_FIELD = "next_page"
 
 enum class IssueField(val value: String) {

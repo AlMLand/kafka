@@ -32,6 +32,7 @@ import com.AlMLand.customConnectArchetype.schema.IssueField.ISSUE_URL
 import com.AlMLand.customConnectArchetype.schema.IssueField.ISSUE_USER
 import org.json.JSONException
 import org.json.JSONObject
+import java.time.Instant
 
 class Issue(
     val url: String?,
@@ -52,8 +53,8 @@ class Issue(
     val assignees: List<Assignee?>?,
     val milestone: String?,
     val comments: Int?,
-    val createdAt: String?,
-    val updatedAt: String?,
+    val createdAt: Instant?,
+    val updatedAt: Instant?,
     val closedAt: String?,
     val authorAssociation: String?,
     val activeLockReason: String?,
@@ -88,8 +89,8 @@ class Issue(
                     .assignees(Assignee.assigneeFromJsonArray(getJSONArray(ISSUE_ASSIGNEES.value)))
                     .milestone(getStringOrNull(ISSUE_MILESTONE.value))
                     .comments(getInt(ISSUE_COMMENTS.value))
-                    .createdAt(getString(ISSUE_CREATED_AT.value))
-                    .updatedAt(getString(ISSUE_UPDATED_AT.value))
+                    .createdAt(Instant.parse(getString(ISSUE_CREATED_AT.value)))
+                    .updatedAt(Instant.parse(getString(ISSUE_UPDATED_AT.value)))
                     .closedAt(getStringOrNull(ISSUE_CLOSED_AT.value))
                     .authorAssociation(getString(ISSUE_AUTHOR_ASSOCIATION.value))
                     .activeLockReason(getStringOrNull(ISSUE_ACTIVE_LOCK_REASON.value))
@@ -136,8 +137,8 @@ class Issue(
             private var assignees: List<Assignee?>? = null,
             private var milestone: String? = null,
             private var comments: Int? = null,
-            private var createdAt: String? = null,
-            private var updatedAt: String? = null,
+            private var createdAt: Instant? = null,
+            private var updatedAt: Instant? = null,
             private var closedAt: String? = null,
             private var authorAssociation: String? = null,
             private var activeLockReason: String? = null,
@@ -168,8 +169,8 @@ class Issue(
             fun assignees(assignees: List<Assignee?>) = apply { this.assignees = assignees }
             fun milestone(milestone: String?) = apply { this.milestone = milestone }
             fun comments(comments: Int) = apply { this.comments = comments }
-            fun createdAt(createdAt: String) = apply { this.createdAt = createdAt }
-            fun updatedAt(updatedAt: String?) = apply { this.updatedAt = updatedAt }
+            fun createdAt(createdAt: Instant) = apply { this.createdAt = createdAt }
+            fun updatedAt(updatedAt: Instant?) = apply { this.updatedAt = updatedAt }
             fun closedAt(closedAt: String?) = apply { this.closedAt = closedAt }
             fun authorAssociation(authorAssociation: String) = apply { this.authorAssociation = authorAssociation }
             fun activeLockReason(activeLockReason: String?) = apply { this.activeLockReason = activeLockReason }

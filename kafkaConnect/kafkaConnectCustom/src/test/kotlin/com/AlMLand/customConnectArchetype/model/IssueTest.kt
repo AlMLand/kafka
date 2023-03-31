@@ -3,6 +3,7 @@ package com.AlMLand.customConnectArchetype.model
 import org.json.JSONObject
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.time.Instant
 
 class IssueTest {
 
@@ -114,8 +115,8 @@ class IssueTest {
             .assignees(listOf())
             .milestone(null)
             .comments(2)
-            .createdAt("2023-03-27T19:02:16Z")
-            .updatedAt("2023-03-27T19:04:55Z")
+            .createdAt(Instant.parse("2023-03-27T19:02:16Z"))
+            .updatedAt(Instant.parse("2023-03-27T19:04:55Z"))
             .closedAt(null)
             .authorAssociation("CONTRIBUTOR")
             .activeLockReason(null)
