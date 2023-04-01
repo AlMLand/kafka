@@ -98,7 +98,7 @@ class GitHubHttpClient(private val connectorConfig: GithubSourceConnectorConfig)
     private fun nextIssuesAPI(page: Int, since: Instant): HttpResponse<JsonNode> =
         Unirest.get(constructUrl(page, since)).let { request ->
             with(connectorConfig) {
-                if (authUsername()?.isNotBlank() == true && authPassword()?.isNotBlank() == true)
+                if (authUsername().isNotBlank() && authPassword().isNotBlank())
                     request.basicAuth(authUsername(), authPassword()).asJson()
                 else
                     request.asJson()

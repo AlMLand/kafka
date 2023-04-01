@@ -81,7 +81,7 @@ services:
 
   kafka-connect:
     build:
-      dockerfile: githubConnector/Dockerfile
+      dockerfile: Dockerfile
     container_name: kafka-connect
     hostname: kafka-connect
     depends_on:

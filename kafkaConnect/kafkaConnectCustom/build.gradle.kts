@@ -40,3 +40,14 @@ tasks.withType<KotlinCompile> {
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
+
+// create fat jar by build
+tasks.withType<Jar>() {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes["Main-Class"] = "MainKt"
+    }
+    configurations["compileClasspath"].forEach { file: File ->
+        from(zipTree(file.absoluteFile))
+    }
+}
